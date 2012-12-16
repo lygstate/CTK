@@ -25,6 +25,11 @@
 #include <ctkErrorLogModel.h>
 #include "ctkCoreExport.h"
 
+// Qt includes
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#include <QtMessageHandler>
+#endif
+
 //------------------------------------------------------------------------------
 /// \ingroup Core
 class CTK_CORE_EXPORT ctkErrorLogQtMessageHandler : public ctkErrorLogAbstractMessageHandler
