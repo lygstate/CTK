@@ -39,6 +39,11 @@
 
 const ctkPlugin::States ctkPluginPrivate::RESOLVED_FLAGS = ctkPlugin::RESOLVED | ctkPlugin::STARTING | ctkPlugin::ACTIVE | ctkPlugin::STOPPING;
 
+
+void ctkPluinUnloader::stopPlugin() {
+    m_p->pluginLoader.unload();
+}
+
 //----------------------------------------------------------------------------
 void ctkPluginPrivate::LockObject::lock()
 {
@@ -89,7 +94,7 @@ ctkPluginPrivate::ctkPluginPrivate(
       : q_ptr(qq), fwCtx(fw), id(pa->getPluginId()),
       location(pa->getPluginLocation().toString()), state(ctkPlugin::INSTALLED),
       archive(pa), pluginContext(0), pluginActivator(0), pluginLoader(pa->getLibLocation()),
-      resolveFailException(0), eagerActivation(false), wasStarted(false)
+      resolveFailException(0), eagerActivation(false), wasStarted(false), m_unloader(this)
 {
   //TODO
   //checkCertificates(pa);
@@ -159,7 +164,7 @@ ctkPluginPrivate::ctkPluginPrivate(QWeakPointer<ctkPlugin> qq,
                                      : q_ptr(qq), fwCtx(fw), id(id), location(loc), symbolicName(sym), version(ver),
                                        state(ctkPlugin::INSTALLED), archive(0), pluginContext(0),
                                        pluginActivator(0), resolveFailException(0),
-                                       eagerActivation(false), wasStarted(false)
+                                       eagerActivation(false), wasStarted(false), m_unloader(this)
 {
   modified();
 }
@@ -477,6 +482,8 @@ const ctkRuntimeException* ctkPluginPrivate::stop1()
   // http://boost.2283326.n4.nabble.com/shared-ptr-A-smarter-smart-pointer-proposal-for-dynamic-libraries-td2649749.html).
   // The activator itself will be delete during program termination
   // (by the QPluginLoader instance).
+  //TODO: is this method to unload the dll are safe?
+  QMetaObject::invokeMethod((QObject*)&m_unloader, "stopPlugin", Qt::QueuedConnection);
   //pluginLoader.unload();
 
   return res;

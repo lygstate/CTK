@@ -38,9 +38,22 @@ class ctkPluginActivator;
 class ctkPluginArchive;
 class ctkPluginFrameworkContext;
 
+
+class ctkPluginPrivate;
 /**
  * \ingroup PluginFramework
  */
+class ctkPluinUnloader : QObject {
+    Q_OBJECT
+public:
+    ctkPluinUnloader(ctkPluginPrivate *p):m_p(p){}
+
+public slots:
+    void stopPlugin();
+private:
+    ctkPluginPrivate *m_p;
+};
+
 class ctkPluginPrivate {
 
 protected:
@@ -312,6 +325,7 @@ private:
 
   ctkPlugin::State getUpdatedState_unlocked();
 
+  ctkPluinUnloader m_unloader;
 };
 
 
