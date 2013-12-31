@@ -27,12 +27,13 @@
 #include <QStringList>
 #include <QVariant>
 
+#include "ctkDictionary.h"
+
 /**
  * \ingroup PluginFramework
  * @{
  */
-typedef QHash<QString, QVariant> ctkProperties;
-typedef ctkProperties ctkDictionary;
+typedef ctkDictionary ctkProperties;
 
 #if QT_VERSION < 0x040700
 #include <QSharedPointer>

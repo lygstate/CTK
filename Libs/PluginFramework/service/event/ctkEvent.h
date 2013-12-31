@@ -89,6 +89,12 @@ public:
    */
   bool operator==(const ctkEvent& other) const;
 
+  template <typename T>
+  T* getProperty() const
+  {
+    return ctkVariant::toStruct<T>(getProperty(TypeIdentifier<T>::id()));
+  }
+
   /**
    * Retrieve the value of an event property. The event topic may be retrieved
    * with the property name &quot;event.topics&quot;.
