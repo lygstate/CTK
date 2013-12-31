@@ -74,7 +74,9 @@ class CTK_WIDGETS_PLUGINS_EXPORT ctkWidgetsPlugins : public QObject,
 {
   Q_OBJECT
   Q_INTERFACES(QDesignerCustomWidgetCollectionInterface);
-
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+  Q_PLUGIN_METADATA(IID "org.commontk.Widgets")
+#endif
 public:
   QList<QDesignerCustomWidgetInterface*> customWidgets() const
     {
