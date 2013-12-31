@@ -415,11 +415,21 @@ void ctkPluginStorageSQL::insertArchive(QSharedPointer<ctkPluginArchiveSQL> pa, 
   QFileInfo fileInfo(pa->getLibLocation());
   QString libTimestamp = getStringFromQDateTime(fileInfo.lastModified());
 
-  QString resourcePrefix = fileInfo.baseName();
+  /* TODO: Getting a better way to found the resourcePrefix,
+     such as Qt plugin metadata (didn't support in Qt4)
+     support for loading plugins when both debug/release version
+     are there, load the one that as same as the main application.
+  */
+  QString resourcePrefix = fileInfo.completeBaseName();
   if (resourcePrefix.startsWith("lib"))
   {
     resourcePrefix = resourcePrefix.mid(3);
   }
+  if (resourcePrefix.endsWith("_debug"))
+  {
+      resourcePrefix.chop(sizeof("_debug") - 1);
+  }
+
   resourcePrefix.replace("_", ".");
   resourcePrefix = QString(":/") + resourcePrefix + "/";
 
