@@ -133,7 +133,7 @@ QSharedPointer<ctkPlugin> ctkPlugins::install(const QUrl& location, QIODevice* i
       //      }
       //      else
       //      {
-      throw ctkPluginException("Failed to install plugin",
+      throw ctkPluginException("Failed to install plugin:" + location.toString(),
                                ctkPluginException::UNSPECIFIED, e);
       //      }
     }
