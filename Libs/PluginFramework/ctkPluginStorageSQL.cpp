@@ -430,7 +430,7 @@ void ctkPluginStorageSQL::insertArchive(QSharedPointer<ctkPluginArchiveSQL> pa, 
       resourcePrefix.chop(sizeof("_debug") - 1);
   }
 
-  resourcePrefix.replace("_", ".");
+  //resourcePrefix.replace("_", ".");
   resourcePrefix = QString(":/") + resourcePrefix + "/";
 
   // Load the plugin and cache the resources
